@@ -16,26 +16,17 @@
     <div class="container py-5">
         <div class="row ">
             <div class="col-md-8 mx-auto inner p-5">
-                <h2 class="text-center fw-bold mb-4">Bulk Mail Sender</h2>
+                <h2 class="text-center fw-bold mb-4">Bulk filter mails by country</h2>
 		<!-- <div class='alert alert-success'>Email sent successfully.</div> -->
-                <form method="POST" action="/send_email" enctype="multipart/form-data">
+                <form method="POST" action="/fmail" enctype="multipart/form-data">
                     <div class="row ">
-                        <div class="col-6 mb-3">
-                            <label for="subject" class="form-label">Subject</label>
-                            <input type="text"  class="form-control button" id="subject" name="subject" placeholder="How are you?" required>
-                        </div>
-                        <div class="col-6">
-                            <label for="attachments" class="form-label">Recipient Emails</label>
-                            <input type="file" class="form-control button" name="recipient_file" placeholder="name@example.com">
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="body" class="form-label">Body</label>
-                        <textarea class="form-control button" id="body" name="body" placeholder="Hello,
-Write your content here." rows="5" required></textarea>
+                      <div class="col-6">
+                        <label for="attachments" class="form-label">Recipient Emails</label>
+                        <input type="file" class="form-control button" name="recipient_file" placeholder="name@example.com">
+                      </div>
                     </div>
                     <div>
-                        <button class="btn btn-primary me-2 button" name="send" type="submit">Send Email</button>
+                        <button class="btn btn-primary me-2 button" name="send" type="submit">Filter Emails</button>
                         <button class="btn btn-danger button" type="reset">Reset Form</button>
                     </div>
                 </form>

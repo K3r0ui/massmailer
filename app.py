@@ -7,21 +7,63 @@ import os
 app = Flask(__name__)
 app.secret_key = "dfgjliedjgldjflgjdfl"  # Change this to a random string
 
-@app.route("/")
-def index():
-    return render_template("email_form.html")
-
 UPLOAD_FOLDER = 'C://Users/Public/Documents'
 ALLOWED_EXTENSIONS = {'txt'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
+#Functions 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+#Routes
+
+## default route           
+@app.route("/")
+def index():
+    return render_template("email_form.html")
+
+
+## filter emails route
+@app.route("/filter" , methods=["POST"])
+def filter():
+    country_code = request.form.get('country_code')
+        if country_code:
+            return redirect(url_for('fmail', country_code=country_code))
+    return render_template("filter.html")
+
+@app.route("/filter/<country_code>" , methods=["POST"])
+def fmail():
+    recipient_file = request.files.get("recipient_file")
+        if recipient_file:
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], recipient_file.filename)
+            try:
+                with open(recipient_file, 'r', encoding='utf-8') as infile:
+
+                for line in infile:
+                    # Extract email part and write to the output file
+                    if line.strip().endswith(suffix):
+                        outfile.write(line)
+
+                print(f"Emails extracted successfully to: {output_file_path}")
+
+            except FileNotFoundError:
+                print(f"File not found: {input_file_path}")
+            except Exception as e:
+                print(f"An error occurred: {str(e)}")
+    return render_template("filter.html")
+
+## send email route
 @app.route("/send_email", methods=["POST"])
 def send_email():
     recipient_file = request.files.get("recipient_file")
+    if recipient_file and allowed_file(recipient_file.filename):
+        filename = secure_filename(recipient_file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        recipient_file.save(filepath)
+        with open(filepath, "r") as f:
+            recipients = f.read().splitlines()
     
     # Check if a file was uploaded and if it is allowed
     if recipient_file and allowed_file(recipient_file.filename):
