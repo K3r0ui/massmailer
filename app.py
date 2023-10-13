@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash ,send_file
+from flask import Flask, render_template, request, redirect, url_for, flash ,send_file , session
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -27,16 +27,11 @@ def index():
 
 ## filter emails route
 @app.route("/filter" , methods=["GET","POST"])
-def filter():
+def fmail():  
     if request.method == 'POST':
+        
         country_code = request.form.get('country_code')
-        if country_code:
-            return redirect(url_for('fmail', country_code=country_code))
-    return render_template("filter.html")
-
-@app.route("/fmail/<country_code>" , methods=["GET","POST"])
-def fmail(country_code):  
-    if request.method == 'POST':
+        print(country_code)
         recipient_file = request.files.get("recipient_file")
         if recipient_file:
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(recipient_file.filename))
@@ -60,7 +55,7 @@ def fmail(country_code):
                 print(f"An error occurred: {str(e)}")
 
     # If GET request or if POST request does not redirect, show form page (or any other page you'd like to redirect to)
-    return render_template("fmail.html", country_code=country_code)
+    return render_template("fmail.html")
 
 
 ## send email route

@@ -18,7 +18,13 @@
             <div class="col-md-8 mx-auto inner p-5">
                 <h2 class="text-center fw-bold mb-4">Bulk filter mails by country</h2>
 		<!-- <div class='alert alert-success'>Email sent successfully.</div> -->
-                <form method="POST" action="" enctype="multipart/form-data">
+                <form method="POST" action="/filter" enctype="multipart/form-data">
+                  <div class="row ">
+                    <div class="col-6 mb-3">
+                        <label for="country_code" class="form-label">Country</label>
+                        <input type="text"  class="form-control button" id="country_code" name="country_code" placeholder="it / de / fr / com / co.uk / us / ..." required>
+                    </div>
+                  </div>
                     <div class="row ">
                       <div class="col-6">
                         <label for="attachments" class="form-label">Recipient Emails</label>
