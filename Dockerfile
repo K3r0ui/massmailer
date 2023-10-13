@@ -3,12 +3,14 @@ FROM python:3.8-slim-buster
 
 WORKDIR /home
 
+RUN pip install --upgrade pip
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+
 COPY . .
 
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
+EXPOSE 5000
 
-EXPOSE 80
-
-
-# Run app.py when the container launches
 CMD ["python", "app.py"]

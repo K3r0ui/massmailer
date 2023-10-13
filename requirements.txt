@@ -1,2 +1,2 @@
-Flask==2.0.1
-smtplib==3.5
+Flask
+Werkzeug

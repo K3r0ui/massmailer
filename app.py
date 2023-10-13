@@ -55,7 +55,7 @@ def fmail():
         if recipient_file:
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(recipient_file.filename))
             recipient_file.save(filepath)
-            output_file_path = "C://Users/Public/Documents/fresh5.txt"  # Specify your output file path
+            output_file_path = UPLOAD_FOLDER+"/fresh5.txt"  # Specify your output file path
 
             try:
                 with open(filepath, 'r', encoding='utf-8') as infile, \
@@ -131,4 +131,4 @@ def send_email_via_smtp(recipient, subject, body):
     except Exception as e:
         print(f"Failed to send email. Error: {str(e)}")
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
