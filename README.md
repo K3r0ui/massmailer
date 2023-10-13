@@ -1,4 +1,4 @@
-# jowl
+# Mailer
 
 <summary>This is a flask web application to help people in e-comm to bulk sending emails.</summary>
 This application will be in docker.
