@@ -14,12 +14,11 @@ UPLOAD_FOLDER = app.config["UPLOAD_FOLDER"]
 smtp_password = app.config["SMTP_PASSWORD"]
 smtp_user = app.config["SMTP_USER"]
 ALLOWED_EXTENSIONS = {'txt'}
+
 if os.path.exists('config.py'):
     print("Config file exists")
 else:
     print("Config file does not exist")
-
-# ... [rest of the imports and app setup]
 
 try:
     app.config.from_pyfile('config.py')
