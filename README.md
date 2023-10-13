@@ -11,7 +11,6 @@ for example:
 ```
 SMTP_USER = "k3r0ui@example.com"
 SMTP_PASSWORD = "k3r0uik3r0ui"
-UPLOAD_FOLDER = 'k3r0ui/downloads'
 ```
 
 ### To Run The Application
