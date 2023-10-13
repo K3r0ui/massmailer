@@ -1,0 +1,3 @@
+SMTP_USER = "Your_EMAIL"
+SMTP_PASSWORD = "Your_Password"
+UPLOAD_FOLDER = 'Your_Path'

@@ -4,12 +4,32 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from werkzeug.utils import secure_filename
 import os
+
+
+
 app = Flask(__name__)
 app.secret_key = "dfgjliedjgldjflgjdfl"  # Change this to a random string
-
-UPLOAD_FOLDER = 'C://Users/Public/Documents'
+app.config.from_pyfile('config.py')
+UPLOAD_FOLDER = app.config["UPLOAD_FOLDER"]
+smtp_password = app.config["SMTP_PASSWORD"]
+smtp_user = app.config["SMTP_USER"]
 ALLOWED_EXTENSIONS = {'txt'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+if os.path.exists('config.py'):
+    print("Config file exists")
+else:
+    print("Config file does not exist")
+
+# ... [rest of the imports and app setup]
+
+try:
+    app.config.from_pyfile('config.py')
+    # Print a config value to ensure it is loaded
+except Exception as e:
+    print(f"Error: {e}")
+
+
+
+
 
 
 #Functions 
@@ -87,11 +107,10 @@ def send_email():
     return redirect(url_for("index"))
 
 def send_email_via_smtp(recipient, subject, body):
+    app.config.from_pyfile('config.py')
     # Here put ur email server, port, and login creds
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
-    smtp_user = "tradevestoteam@gmail.com"
-    smtp_password = "ithvnwiabdjiydbo"
     
     try:
         # Connect to the server, login, and send the email
