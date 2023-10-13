@@ -4,6 +4,28 @@
 This application will be in docker.
 
 ----------------
+### STEP ONE - Download the project
+download the project then remove ".example" from config.py.example and complete.
+for example:
+
+```
+SMTP_USER = "k3r0ui@example.com"
+SMTP_PASSWORD = "k3r0uik3r0ui"
+UPLOAD_FOLDER = 'k3r0ui/downloads'
+```
+
+### To Run The Application
+```
+docker run -p 5000:5000 mailer
+```
+----------------
+### To Run The Application in the background
+```
+docker run -d -p 5000:5000 mailer
+```
+----------------
+
+----------------
 ### To Build The application Via Docker
 
 ```
