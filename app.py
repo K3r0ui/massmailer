@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash ,send_file
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -26,33 +26,42 @@ def index():
 
 
 ## filter emails route
-@app.route("/filter" , methods=["POST"])
+@app.route("/filter" , methods=["GET","POST"])
 def filter():
-    country_code = request.form.get('country_code')
+    if request.method == 'POST':
+        country_code = request.form.get('country_code')
         if country_code:
             return redirect(url_for('fmail', country_code=country_code))
     return render_template("filter.html")
 
-@app.route("/filter/<country_code>" , methods=["POST"])
-def fmail():
-    recipient_file = request.files.get("recipient_file")
+@app.route("/fmail/<country_code>" , methods=["GET","POST"])
+def fmail(country_code):  
+    if request.method == 'POST':
+        recipient_file = request.files.get("recipient_file")
         if recipient_file:
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], recipient_file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(recipient_file.filename))
+            recipient_file.save(filepath)
+            output_file_path = "C://Users/Public/Documents/fresh5.txt"  # Specify your output file path
+
             try:
-                with open(recipient_file, 'r', encoding='utf-8') as infile:
+                with open(filepath, 'r', encoding='utf-8') as infile, \
+                     open(output_file_path, 'w', encoding='utf-8') as outfile:
 
-                for line in infile:
-                    # Extract email part and write to the output file
-                    if line.strip().endswith(suffix):
-                        outfile.write(line)
-
+                    for line in infile:
+                        if line.strip().endswith(country_code):
+                            outfile.write(line)
+                    
                 print(f"Emails extracted successfully to: {output_file_path}")
+                return send_file(output_file_path, as_attachment=True, download_name='filtered_emails.txt')
 
             except FileNotFoundError:
-                print(f"File not found: {input_file_path}")
+                print(f"File not found: {filepath}")  
             except Exception as e:
                 print(f"An error occurred: {str(e)}")
-    return render_template("filter.html")
+
+    # If GET request or if POST request does not redirect, show form page (or any other page you'd like to redirect to)
+    return render_template("fmail.html", country_code=country_code)
+
 
 ## send email route
 @app.route("/send_email", methods=["POST"])
