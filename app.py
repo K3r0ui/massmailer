@@ -72,17 +72,7 @@ def send_email():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         recipient_file.save(filepath)
         with open(filepath, "r") as f:
-            recipients = f.read().splitlines()
-    
-    # Check if a file was uploaded and if it is allowed
-    if recipient_file and allowed_file(recipient_file.filename):
-        filename = secure_filename(recipient_file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        recipient_file.save(filepath)
-        
-        with open(filepath, "r") as f:
-            recipients = f.read().splitlines()
-        
+            recipients = f.read().splitlines()        
         subject = request.form.get("subject")
         body = request.form.get("body")
 
@@ -90,6 +80,7 @@ def send_email():
         for recipient in recipients:
             try:
                 send_email_via_smtp(recipient, subject, body)
+                print ("GG")
                 flash("Emails sent successfully!", "success")
             except Exception as e:
                 flash(str(e), "error")
@@ -105,13 +96,13 @@ def send_email_via_smtp(recipient, subject, body):
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
     smtp_user = "tradevestoteam@gmail.com"
-    smtp_password = "mywyiutlmnfcxsxm"
+    smtp_password = "ithvnwiabdjiydbo"
     
     try:
         # Connect to the server, login, and send the email
         server = smtplib.SMTP(smtp_server, smtp_port)
         server.starttls()
-        server.login(smtp_user, smtp_password)
+        login_response = server.login(smtp_user, smtp_password)
         
         # Create the email
         msg = MIMEMultipart("alternative")
