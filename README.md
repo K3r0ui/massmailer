@@ -13,6 +13,13 @@ SMTP_USER = "k3r0ui@example.com"
 SMTP_PASSWORD = "k3r0uik3r0ui"
 ```
 
+change in docker-compose.yml
+
+```
+your-path to the path of the file on ur OS
+```
+
+
 ### To Run The Application
 ```
 docker run -p 5000:5000 mailer
